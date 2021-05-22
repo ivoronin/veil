@@ -30,11 +30,13 @@ fn veil() {
             return;
         }
     };
-    let rules_string = fs::read_to_string(rules_path).unwrap_or_default();
-    if rules_string.is_empty() {
-        eprintln!("Unable to open rules file");
-        return;
-    }
+    let rules_string = match fs::read_to_string(rules_path) {
+        Ok(s) => s,
+        Err(e) => {
+            eprintln!("Unable to open rules file: {}", e);
+            return;
+        }
+    };
     let file = match RulesParser::parse(Rule::file, &rules_string) {
         Ok(rules_parsed) => rules_parsed,
         Err(err) => {
