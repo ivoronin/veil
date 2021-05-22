@@ -22,9 +22,8 @@ pub struct RulesParser;
 static veil_init: fn() = veil;
 
 fn veil() {
-    let rules_path;
-    match env::var(VEIL_RULES_PATH) {
-        Ok(val) => rules_path = val,
+    let rules_path = match env::var(VEIL_RULES_PATH) {
+        Ok(v) => v,
         Err(_e) => {
             eprintln!("VEIL_RULES_PATH not set");
             return;
@@ -38,9 +37,9 @@ fn veil() {
         }
     };
     let file = match RulesParser::parse(Rule::file, &rules_string) {
-        Ok(rules_parsed) => rules_parsed,
-        Err(err) => {
-            eprintln!("Unable to parse rules: {}", err);
+        Ok(f) => f,
+        Err(e) => {
+            eprintln!("Unable to parse rules: {}", e);
             return;
         }
     }
