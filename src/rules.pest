@@ -1,0 +1,11 @@
+WHITESPACE = _{ " " | "\t" }
+
+permissions = @{ ("r" | "w" | "x" | "c")+ }
+path = @{ (!WHITESPACE ~ ANY)+ }
+line = { (path ~ permissions)? ~ NEWLINE }
+
+file = {
+     SOI ~
+     line* ~
+     EOI
+}
